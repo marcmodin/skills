@@ -1,0 +1,15 @@
+{
+  "name": "excalidraw",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "rm -rf out && bun build index.ts --outdir out --target node --minify --splitting"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}

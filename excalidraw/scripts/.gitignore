@@ -1,0 +1,8 @@
+# local diagram checkpoints state files
+.checkpoints
+
+# lock files
+*.lock
+
+# node modules
+node_modules
