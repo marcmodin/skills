@@ -2,6 +2,16 @@
 
 This repo is a collection of personal Claude Code skills. Each top-level subdirectory is one self-contained skill.
 
+## Installing skills
+
+Skills install with the [Skills CLI](https://www.skills.sh/docs/cli), which copies the skill into the local skills directory and registers it. Add every skill in this repo:
+
+```sh
+bunx skills add marcmodin/skills
+```
+
+Use `npx` instead of `bunx` if you prefer npm. Append a directory name to install one skill (e.g. `marcmodin/skills/handoff`). See the top-level `README.md` for details.
+
 ## Adding a new skill
 
 When you add a skill, do all of these before considering the work done:
