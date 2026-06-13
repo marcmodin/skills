@@ -7,7 +7,7 @@ Claude Code skill that creates hand-drawn Excalidraw diagrams from natural langu
 
 ## Requirements
 
-- Node.js (for the CLI scripts, there is no magic wand available you need Node.js to run the commands)
+- Node.js, to run the CLI scripts
 - Access to `mcp.excalidraw.com` for retrieving the element format reference
 
 ## Actions
