@@ -29,7 +29,7 @@ The encryption key lives in the URL fragment (`#`), so it's never sent to the se
 
 ## Checkpoints
 
-Every `create` auto-merges new elements with the current checkpoint. Rolling window of 3 versions.
+Every `create` auto-merges new elements with the current checkpoint. Rolling window of 3 versions. This means a stale checkpoint leaks into the next diagram unless you run `reset` first, which is why the skill resets before drawing a new diagram.
 
 - **Append**: send new elements — they merge with current
 - **Delete**: `{"type":"delete","ids":"id1,id2"}`

@@ -29,7 +29,7 @@ MUST read the element format. It contains the exact JSON structures you need.
 ${CLAUDE_SKILL_DIR}/elements.md
 ```
 
-## Step 3: Check current state
+## Step 3: Check current state and decide: new diagram or update
 
 MUST check state before creating or updating anything:
 
@@ -37,9 +37,21 @@ MUST check state before creating or updating anything:
 node ${CLAUDE_SKILL_DIR}/scripts/out/index.js status
 ```
 
+`create` ALWAYS merges new elements onto the current checkpoint. If a checkpoint from an earlier diagram is still present, its elements will be injected into whatever you draw next. So before drawing, decide whether this request is a **new diagram** or an **update** to the existing one.
+
 **Decision tree (follow strictly):**
 
-- **Checkpoint exists** -- this is the default path. MUST inspect and build on the existing diagram unless the user explicitly says otherwise:
+- **No checkpoint** -- fresh start, continue to Step 4.
+
+- **Checkpoint exists and the request is a NEW diagram** -- this is the default. Any request that describes a diagram without referring to the current one is a new diagram ("draw the login flow", "diagram how X works", "visualize the deploy pipeline"). MUST reset before drawing anything:
+
+```bash
+node ${CLAUDE_SKILL_DIR}/scripts/out/index.js reset
+```
+
+This clears all checkpoint history. Then continue to Step 4. Never let a previous diagram's elements leak into a new one.
+
+- **Checkpoint exists and the request is an UPDATE** -- only when the user refers to the current diagram ("add a cache to the diagram", "move the database box", "fix the arrows", "change the title"). MUST inspect and build on it:
 
 ```bash
 node ${CLAUDE_SKILL_DIR}/scripts/out/index.js inspect
@@ -47,8 +59,7 @@ node ${CLAUDE_SKILL_DIR}/scripts/out/index.js inspect
 
 Output: structured JSON with `shapes`, `arrows`, `texts` arrays including computed bounds, binding targets, and elbow status. Use this to plan updates. Pass a specific checkpoint ID with `inspect <checkpointId>` if needed.
 
-- **No checkpoint** -- fresh start, continue to Step 4.
-- **Reset** -- ONLY when the user explicitly says "new diagram", "start fresh", "start over", or "from scratch". Never assume a reset. If in doubt, update the existing diagram. See Step 7.
+**If in doubt**, run `inspect` and compare the existing elements to the request. If they are about a different subject, it is a new diagram: reset. Do not merge unrelated diagrams.
 
 ## Step 4: Construct elements JSON
 
@@ -126,14 +137,4 @@ Restore a previous version:
 [{"type":"restoreCheckpoint","id":"<checkpointId>"}]
 ```
 
-Check available versions with `status`.
-
-## Step 7: Reset (new diagram only)
-
-Only when user explicitly asks for a new diagram AND a checkpoint exists:
-
-```bash
-node ${CLAUDE_SKILL_DIR}/scripts/out/index.js reset
-```
-
-Clears all checkpoint history. After reset, continue from Step 4.
+Check available versions with `status`. Rollback only applies to updates of the current diagram; a new diagram starts with `reset` (Step 3), which discards this history.
