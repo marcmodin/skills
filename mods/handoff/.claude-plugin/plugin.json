@@ -1,0 +1,9 @@
+{
+  "name": "handoff",
+  "version": "0.1.0",
+  "description": "Prototype: /handoff opens a picker, writes a brief from a fork of the conversation, and starts the child in a herdr pane, tab or background session.",
+  "author": {
+    "name": "Marc Modin"
+  },
+  "types": "./types/index.d.ts"
+}

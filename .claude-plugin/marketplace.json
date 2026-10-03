@@ -1,0 +1,24 @@
+{
+  "name": "marcmodin",
+  "owner": {
+    "name": "Marc Modin"
+  },
+  "description": "Marc Modin's Claude Code plugins",
+  "plugins": [
+    {
+      "name": "skills",
+      "source": "./",
+      "strict": false,
+      "description": "Marc Modin's Agent Skills: excalidraw and no-ai-slop. The same skills npx skills add installs.",
+      "skills": [
+        "./excalidraw",
+        "./no-ai-slop"
+      ]
+    },
+    {
+      "name": "handoff",
+      "source": "./mods/handoff",
+      "description": "Hand a task to a new Claude Code session in a herdr pane, tab or background session, and track it above the prompt."
+    }
+  ]
+}

@@ -1,1 +1,4 @@
 .claude
+
+# Written by Claude Code when a mod loads; mods/types/ holds the committed copy
+mods/*/.claude-plugin/types/

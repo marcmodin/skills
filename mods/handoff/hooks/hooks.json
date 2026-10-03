@@ -1,0 +1,4 @@
+{
+  "description": "/handoff and its picker pane, the launch of a child session, and the band above the prompt that tracks the children",
+  "modules": ["./register.tsx"]
+}

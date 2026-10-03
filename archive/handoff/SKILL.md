@@ -4,6 +4,8 @@ description: 'Spawn a sibling Claude Code session in a new cmux pane to pursue a
 disable-model-invocation: true
 allowed-tools: AskUserQuestion, Bash(${CLAUDE_SKILL_DIR}/scripts/launch-sibling.sh:*)
 argument-hint: '[topic and/or what the child should do, or empty to infer]'
+metadata:
+  internal: true
 ---
 
 ## Purpose
