@@ -5,6 +5,8 @@ disable-model-invocation: true
 allowed-tools: Agent(handoff-loader)
 arguments: parent dir focus task
 argument-hint: '<parent_session_id> <project_dir> <focus> <task>'
+metadata:
+  internal: true
 ---
 
 ## Purpose
