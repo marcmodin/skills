@@ -1,0 +1,25 @@
+name: Story
+description: A user-facing change that fits in one sprint
+labels: [story]
+body:
+  - type: textarea
+    id: story
+    attributes:
+      label: User story
+      placeholder: As a <role>, I want <capability>, so that <benefit>.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: One scenario per item. Each must be testable.
+      value: |
+        - [ ] Given …, when …, then …
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes and links
+      description: Designs, related issues, open questions.

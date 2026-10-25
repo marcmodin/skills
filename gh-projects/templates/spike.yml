@@ -1,0 +1,23 @@
+name: Spike
+description: Time-boxed research to answer a question before committing to work
+labels: [spike]
+body:
+  - type: textarea
+    id: question
+    attributes:
+      label: Question
+      description: What we need to learn, and the decision it unblocks.
+    validations:
+      required: true
+  - type: input
+    id: timebox
+    attributes:
+      label: Timebox
+      placeholder: 2 days
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Outcome
+      description: Filled in when the spike ends. The answer, and the follow-up issues it created.
