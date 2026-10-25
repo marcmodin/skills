@@ -1,0 +1,34 @@
+name: Epic
+description: A large piece of work, split into stories
+labels: [epic]
+body:
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+      description: The outcome this epic delivers, and for whom.
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: What's in and what's out.
+      value: |
+        In:
+        -
+
+        Out:
+        -
+  - type: textarea
+    id: success
+    attributes:
+      label: Success measures
+      description: How we know the epic worked. Prefer something you can observe or measure.
+    validations:
+      required: true
+  - type: textarea
+    id: risks
+    attributes:
+      label: Dependencies and risks
+      description: Other teams, systems or decisions this depends on, and what could go wrong.
