@@ -43,7 +43,7 @@ Before anything that changes GitHub (an issue, label, field value, board, or rep
 
 ## Init and Configure
 
-- No record yet: read `init.md` in this skill's directory and follow it.
+- No record yet, or the user asks to onboard again or re-learn the board: read `init.md` in this skill's directory and follow it.
 - Changing the setup (the board, fields, options, sprints, kinds, forms, the record) or aligning the board with common practice: read `configure.md` and follow it.
 
 ## Create
