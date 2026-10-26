@@ -9,10 +9,10 @@ Epics, stories and tasks are issues on a project board. Every board works its ow
 
 ## Discover
 
-Run this from inside the repo's clone, before any other step. If the current directory isn't a GitHub repo, ask the user which repo and where its clone is.
+Run this from inside the repo's clone. If the current directory isn't a GitHub repo, ask the user which repo and where its clone is.
 
 1. Read the "GitHub project" section in `CLAUDE.md`, `AGENTS.md` or `CLAUDE.local.md`. This is the record. With no record, offer `init` and stop.
-2. Read the board by the ID in the record, for its fields and options:
+2. Read the board only when the request needs more than the record holds: options it doesn't list (such as Priority's), a field's type, sprint IDs, or IDs for `configure.md`. Also read it when a command fails, and before reporting that a query found nothing. Otherwise act straight from the record. To read it:
 
 ```sh
 gh api graphql -f query='{node(id: "<project id>") {... on ProjectV2 {title number closed fields(first: 50) {nodes {
@@ -23,7 +23,7 @@ gh api graphql -f query='{node(id: "<project id>") {... on ProjectV2 {title numb
     | {id, name, type: .dataType, options: [.options[]?.name], iterations: [.configuration.iterations[]?]}]}'
 ```
 
-3. Check the record against the board. If a field or option it names is gone or renamed, or the board is closed, say which line is stale and offer to fix the record. Don't guess around it.
+3. Whenever you read the board, check the record against it. If a field or option it names is gone or renamed, or the board is closed, say which line is stale and offer to fix the record. Don't guess around it.
 
 The record says what each field means. The board says which options exist. Use only names from these two. When the user asks for something the record doesn't cover, such as a priority on a board with no priority field, say so and ask. Never fall back to defaults or add a field.
 
