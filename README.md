@@ -40,7 +40,7 @@ claude plugin install handoff@marcmodin   # one mod
 | Skill | Description |
 | ----- | ----------- |
 | [excalidraw](./excalidraw) | Create or update hand-drawn Excalidraw diagrams from natural language. Runs as a forked subagent that builds, uploads, and opens the diagram in the browser. |
-| [gh-projects](./gh-projects) | Plan work in GitHub Projects with the `gh` CLI: set up a repo and board, create epics, stories and tasks as issues, find them by status, priority or date, update them, and change the board's fields, options, sprints and issue forms as your process evolves. Kinds and fields are read from the repo's issue templates and board, not hardcoded. |
+| [gh-projects](./gh-projects) | Plan work in GitHub Projects with the `gh` CLI: onboard a repo to a board you already use by learning its conventions, or set up a new one, then create epics, stories and tasks as issues, find them by status, priority or date, update them, and change the board's fields, options, sprints and issue forms as your process evolves. The board's conventions are recorded in the repo, not hardcoded. |
 | [no-ai-slop](./no-ai-slop) | Enforce a plain house style and strip AI tells (puffery, em-dash overuse, the rule of three, AI vocabulary, title-case headings, curly quotes) from any prose. Triggers when writing or editing docs, or on a request to de-slop or humanize text. |
 
 ## Mods
