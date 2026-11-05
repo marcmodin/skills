@@ -30,13 +30,13 @@ Every change to GitHub is summarized first and waits for a yes, except a request
 ## How it works
 
 1. Init writes a record of the board's conventions into the repo's `CLAUDE.md`, `AGENTS.md` or `CLAUDE.local.md`: the board, how each kind is marked (a label, an issue type or a board field such as Level), what its body looks like (an issue form or an example issue), its parent kind, title patterns, what each Status option means, which fields hold priority, dates, size and sprint, and close reasons. The record names fields and options but doesn't copy them.
-2. On a board in use, init learns the record from the board's fields, views and README and a sample of its issues, and asks only where the data is split. It reports gaps, such as stories missing their marker or dates written only in bodies, and leaves them for you to align later or not at all. It writes only the record, plus issue forms built from the example issues and a board link if you opt in.
+2. On a board in use, init learns the record from the board's fields, views and README and a sample of its issues, and asks only where the data is split. It reports gaps, such as stories missing their marker or dates written only in bodies, and leaves them for you to align later or not at all. It changes nothing on the board. In the repo it writes the record, and by default copies the issue forms and creates the labels the board's other repos use, so the first issue created here matches. Issue forms built from the example issues and a board link are opt-in.
 3. On an empty or new board, init offers default kinds (Epic, Story, Task, with Bug and Spike optional) as issue forms, adds the default fields the board lacks (Status with In Review, Priority, Start and Target, with Estimate and Sprint offered), and records them. Each form gets `projects:`, so issues opened in the web UI land on the board too.
 4. Each request starts from the record. The skill reads the board's live fields and options only when the record isn't enough: options it doesn't list, field types or sprint IDs, a failed command, or a query that found nothing. If something the record names is gone, it says which line is stale. It never falls back to defaults: what the record doesn't cover, it asks about.
 5. Epics, stories and tasks link through sub-issues. Queries use `gh project item-list --query`, which takes the board's own filter syntax.
 
 ## Bundled resources
 
-- `init.md`: the onboarding steps: Learn, Join, Set up and the record format. The skill reads it only when you onboard a repo.
+- `init.md`: the onboarding steps: Learn, Join, Set up, bringing the repo in line with the board, and the record format. The skill reads it only when you onboard a repo.
 - `configure.md`: steps for changing the setup later (the board, fields, options, sprints, kinds and forms) and for aligning a board with common practice. Each change counts the items it touches before asking, and keeps the record in step.
 - `templates/`: the default issue forms for a new board: `epic.yml`, `story.yml`, `task.yml`, `bug.yml` and `spike.yml`. A repo's own forms always win.
