@@ -1,0 +1,4 @@
+{
+  "description": "A row under the prompt: model, context, 5h and 7d usage, prompt-cache countdown, branch, directory",
+  "modules": ["./register.tsx"]
+}
