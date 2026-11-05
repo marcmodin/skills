@@ -52,7 +52,8 @@ const BRANCH_ICON = '\uf418' // Nerd Font octicon git-branch
 const DIR_ICON = '\uf4d3' // Nerd Font octicon file-directory-fill
 // The Geiger counter: while Claude works, the separator dots click green at random.
 const PIPBOY_GREEN = '#1aff80'
-const CLICK_CHANCE = 0.5
+// Per dot, per frame: the chance it clicks.
+const CLICK_CHANCE: Record<string, number> = { off: 0, calm: 0.1, berserk: 0.5 }
 
 // "2h13m", "47m", "3d4h", "12s"; minutes round up, as a countdown should.
 export const duration = (ms: number): string => {
@@ -212,6 +213,7 @@ export const segments = (snap: Snapshot, now: number): Segment[] => {
 const live = {
   place: 'below',
   ttlMs: 3_600_000,
+  clickChance: CLICK_CHANCE.berserk!,
   snap: null as Snapshot | null,
   usage: null as Usage | null,
   samples: {} as Record<string, Sample[]>,
@@ -304,7 +306,7 @@ async function row($: EngineInterface, e: Parameters<EngineInterface['ui']['reso
   )
   // Each redraw while working rolls every dot again: a click is a green one.
   const dot = () =>
-    working && Math.random() < CLICK_CHANCE ? (
+    working && Math.random() < live.clickChance ? (
       <Text>
         {' '}
         <Text color={PIPBOY_GREEN} bold>
@@ -330,6 +332,7 @@ async function row($: EngineInterface, e: Parameters<EngineInterface['ui']['reso
 export const register: Register = (on, options) => {
   live.place = options.place === 'above' ? 'above' : 'below'
   live.ttlMs = options.cacheTtl === '5m' ? 300_000 : 3_600_000
+  live.clickChance = CLICK_CHANCE[String(options.geiger)] ?? CLICK_CHANCE.berserk!
 
   on('session.start', async ($, e, next) => {
     const result = await next(e)
@@ -368,7 +371,7 @@ export const register: Register = (on, options) => {
   on('turn.start', async ($, e, next) => {
     await stamp($)
     live.clicker?.cancel()
-    live.clicker = $.clock.every(90, () => $.ui.invalidate('ui.render'))
+    if (live.clickChance > 0) live.clicker = $.clock.every(90, () => $.ui.invalidate('ui.render'))
     return next(e)
   })
 

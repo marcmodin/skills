@@ -25,6 +25,17 @@
         "5m",
         "1h"
       ]
+    },
+    "geiger": {
+      "type": "string",
+      "title": "Geiger counter",
+      "description": "How often the dots click while Claude works: off, calm or berserk",
+      "default": "berserk",
+      "options": [
+        "off",
+        "calm",
+        "berserk"
+      ]
     }
   },
   "types": "./types/index.d.ts"

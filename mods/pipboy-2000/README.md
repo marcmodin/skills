@@ -41,3 +41,4 @@ Set in `/config`, or under `pluginConfigs.pipboy-2000` in settings:
 | ------ | ------ | ------- |
 | `place` | `below` (under the prompt), `above` (the band above the prompt) | `below` |
 | `cacheTtl` | `5m`, `1h`. Mods can't read the cache's expiry, so the countdown assumes this TTL. | `1h` |
+| `geiger` | `off`, `calm`, `berserk`: how often the dots click while Claude works | `berserk` |
