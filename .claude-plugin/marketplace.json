@@ -9,8 +9,9 @@
       "name": "skills",
       "source": "./",
       "strict": false,
-      "description": "Marc Modin's Agent Skills: excalidraw, gh-projects and no-ai-slop. The same skills npx skills add installs.",
+      "description": "Marc Modin's Agent Skills: drawio, excalidraw, gh-projects and no-ai-slop. The same skills npx skills add installs.",
       "skills": [
+        "./drawio",
         "./excalidraw",
         "./gh-projects",
         "./no-ai-slop"

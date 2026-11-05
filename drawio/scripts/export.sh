@@ -1,13 +1,17 @@
 #!/usr/bin/env bash
-# Export a .drawio file in docs/diagrams to docs/assets/<name>.png with the
-# draw.io desktop app, at 2x scale with a 10 px border.
+# Export a .drawio file to PNG with the draw.io desktop app, at 2x scale with
+# a 10 px border. The PNG goes next to the source unless an output is given.
 #
-# Usage: export.sh docs/diagrams/<name>.drawio [output.png]
+# Usage: export.sh <name>.drawio [output.png]
 set -euo pipefail
 
-src="${1:?usage: export.sh docs/diagrams/<name>.drawio [output.png]}"
-name="$(basename "${src%.drawio}")"
-out="${2:-docs/assets/${name}.png}"
+src="${1:?usage: export.sh <name>.drawio [output.png]}"
+out="${2:-${src%.drawio}.png}"
+
+# draw.io exports a blank image for broken XML, so check it first.
+if command -v xmllint >/dev/null; then
+  xmllint --noout "$src"
+fi
 
 drawio="${DRAWIO:-}"
 if [[ -z "$drawio" ]]; then
@@ -26,6 +30,8 @@ if [[ -z "$drawio" ]]; then
   exit 1
 fi
 
+mkdir -p "$(dirname "$out")"
+rm -f "$out"
 "$drawio" --export --format png --scale 2 --border 10 --output "$out" "$src" 2>&1 \
   | grep -v -i -E 'warn|electron|gpu' || true
 
