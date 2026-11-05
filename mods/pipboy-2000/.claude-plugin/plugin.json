@@ -1,0 +1,31 @@
+{
+  "name": "pipboy-2000",
+  "version": "0.1.0",
+  "description": "Prototype: model, context, 5h and 7d usage, prompt-cache countdown, branch and directory, in a row under the prompt.",
+  "author": {
+    "name": "Marc Modin"
+  },
+  "userConfig": {
+    "place": {
+      "type": "string",
+      "title": "Where to draw",
+      "description": "below: under the prompt, above the hint line; above: in the band above the prompt",
+      "default": "below",
+      "options": [
+        "below",
+        "above"
+      ]
+    },
+    "cacheTtl": {
+      "type": "string",
+      "title": "Prompt-cache TTL",
+      "description": "The TTL the cache countdown assumes for the main conversation",
+      "default": "1h",
+      "options": [
+        "5m",
+        "1h"
+      ]
+    }
+  },
+  "types": "./types/index.d.ts"
+}

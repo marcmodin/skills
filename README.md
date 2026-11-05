@@ -49,6 +49,7 @@ claude plugin install handoff@marcmodin   # one mod
 | Mod | Description |
 | --- | ----------- |
 | [handoff](./mods/handoff) | `/handoff` hands a task to a new Claude Code session in a herdr pane, tab or background session, and tracks it in a band above the prompt. |
+| [pipboy-2000](./mods/pipboy-2000) | Model, context, 5h and 7d usage, prompt-cache countdown, branch and directory, in a row under the prompt. |
 
 Retired skills are kept in [`archive/`](./archive) and aren't installed by either method.
 

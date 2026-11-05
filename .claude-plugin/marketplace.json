@@ -21,6 +21,11 @@
       "name": "handoff",
       "source": "./mods/handoff",
       "description": "Hand a task to a new Claude Code session in a herdr pane, tab or background session, and track it above the prompt."
+    },
+    {
+      "name": "pipboy-2000",
+      "source": "./mods/pipboy-2000",
+      "description": "Model, context, 5h and 7d usage, prompt-cache countdown, branch and directory, in a row under the prompt."
     }
   ]
 }

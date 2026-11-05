@@ -5,6 +5,7 @@ A mod is a Claude Code plugin whose behaviour lives in a hooks module: one `regi
 | Mod | What it does |
 | --- | --- |
 | [handoff](handoff) | `/handoff` hands a task to a new Claude Code session in a herdr pane, tab or background session, and tracks it in a band above the prompt. |
+| [pipboy-2000](pipboy-2000) | Model, context, 5h and 7d usage, prompt-cache countdown, branch and directory, in a row under the prompt. |
 
 ## Install
 
