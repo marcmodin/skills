@@ -32,7 +32,7 @@ The record says what each field means. The board says which options exist. Use o
 The record (format in `init.md`) has one line each for kinds, titles, Status, priority, dates, size, sprint, closing and notes. Each kind lists:
 
 - **Marker**: `label <name>`, `type <Type>` (org issue type) or `<Field>: <option>` (a board field).
-- **Body**: `form <file>` (an issue form in `.github/ISSUE_TEMPLATE/`) or `like #<n>` (an example issue).
+- **Body**: `form <file>` (an issue form in `.github/ISSUE_TEMPLATE/`, or another repo's as `form <owner>/<repo>:<file>`) or `like #<n>` (an example issue).
 - **Parent**: `under a <Kind>` means it's a sub-issue of one.
 
 A line naming `none` means the board doesn't track it.
@@ -49,9 +49,9 @@ Before anything that changes GitHub (an issue, label, field value, board, or rep
 ## Create
 
 1. Body, by the kind's record:
-   - `form <file>`: fill the form's sections from what the user said, and ask only for required ones that are missing. Write each as `### <label>`, a blank line, the text, in order, the way the web form renders it. Use `_No response_` for an empty optional section.
+   - `form <file>`: read it from `.github/ISSUE_TEMPLATE/`, or for `form <owner>/<repo>:<file>` with `gh api repos/<owner>/<repo>/contents/.github/ISSUE_TEMPLATE/<file> -H 'Accept: application/vnd.github.raw'`. Fill the form's sections from what the user said, and ask only for required ones that are missing. Write each as `### <label>`, a blank line, the text, in order, the way the web form renders it. Use `_No response_` for an empty optional section.
    - `like #<n>`: read it with `gh issue view <n> --json body`, adding `-R <owner>/<repo>` for `like <owner>/<repo>#<n>`. Use the same header line keys, headings, heading levels and checklist style, with new content. Never copy its text. Draft every section from what the user said, then list your assumptions and the open questions under the draft. Ask for header values the user didn't give, or leave them blank. A value the record maps to a field, such as a target date, also goes in that field.
-2. Title: follow the kind's pattern. For a number, find the highest in use with `gh issue list --state all --search "<prefix> in:title" --json title --limit 200` and add one.
+2. Title: follow the kind's pattern. For a number, find the highest in use on the board, since other repos on it share the sequence: `gh project item-list <n> --owner <owner> --limit 500 --format json --jq '.items[].title'`. Add one.
 3. Parent: if the kind is `under a <Kind>` or the user named one, check it exists with `gh issue view <n> --json number,title`. For a parent in another repo, add `-R <owner>/<repo>` and pass its full URL to `--parent`. Never guess a number.
 4. Steps 4–6 can run as one shell block. Create the issue, with `--label <name>` or `--type <Type>` when that's the marker: `gh issue create --title "<title>" --body-file <file> --parent <n>`. If the command errors, it may still have created the issue. Check with `gh issue list --search "<title>"` before retrying.
 5. Add it to the board, which prints its item ID: `gh project item-add <n> --owner <owner> --url <issue url> --format json --jq .id`. "Content already exists" means a board workflow added it already, which is fine.

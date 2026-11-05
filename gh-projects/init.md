@@ -14,14 +14,11 @@ Onboard a repo to a board: learn the conventions of a board that's in use, copy 
 1. List the owner's open boards, with `organization` in place of `user` for an org:
    `gh api graphql -f query='{user(login: "<owner>") {projectsV2(first: 50) {nodes {id number title closed items {totalCount} repositories(first: 20) {nodes {nameWithOwner}}}}}}' --jq '[.data.user.projectsV2.nodes[] | select(.closed | not) | {id, number, title, items: .items.totalCount, repos: [.repositories.nodes[].nameWithOwner]}]'`
 2. Present them with the AskUserQuestion tool, plus a new board, labeled like "Roadmap (40 items, api, web)". With more than three, list them in text and ask for a number.
-   - Many boards in use cover no repos, so go by item count. Join applies only if a listed repo has a record.
-   - Another repo on the board has a record: offer Join, or Learn to read the board afresh.
+   - Many boards in use cover no repos, so go by item count. If a listed repo has a record, offer Join, or Learn to read the board afresh.
    - A board with items: Learn. An empty board: Set up.
    - New board: propose a title such as `<repo> planning`. The web UI is the only way to start from GitHub's templates, which bring views and workflows, so give the steps: open `https://github.com/users/<owner>/projects` (`/orgs/<owner>/projects` for an org) → **New project** → pick a template (Team planning or Iterative development for sprints, Kanban for flow, Roadmap for dates) → name it exactly → **Create project**. When they're done, find it: `gh project list --owner <owner> --limit 500 --format json --jq '.projects[] | select(.title == "<title>") | {number, id}'`, taking the highest number if there are several. Then Set up.
 
 ## Learn
-
-Learn reads only. Nothing changes until the record is written.
 
 1. Fields: the board query from Discover in `SKILL.md`.
 2. README, views and a sample of items with their values:
@@ -43,7 +40,7 @@ Learn reads only. Nothing changes until the record is written.
 Infer each line of the record from what the board and its issues show, not from what the skill would prefer:
 
 - **Kinds**: whatever splits items into kinds: a select field such as Level with options like Epic and Story, labels such as `epic`, org issue types, or forms. Two markers used together are joined with `+`. A form counts as a kind even with no items. If no item carries a kind's marker yet, such as a Level option nobody has set, say it's a guess when you ask.
-- **Body**: `form <file>` if the kind has a form. Otherwise `like #<n>`, the newest open issue with the shape most of the kind share: the same header line, headings and checklist. For an issue in another repo, write `like <owner>/<repo>#<n>`.
+- **Body**: `form <file>` if the kind has a form in this repo, `form <owner>/<repo>:<file>` if it's in another. Otherwise `like #<n>`, the newest open issue with the shape most of the kind share: the same header line, headings and checklist. For an issue in another repo, write `like <owner>/<repo>#<n>`.
 - **Parent**: `under a <Kind>` if most issues of the kind have a parent of that kind.
 - **Titles**: a pattern if most titles of a kind share one, such as `CWN-NN <title>`. Otherwise `none`.
 - **Status**: map each option by name and description to not started, in progress, in review, blocked or done. Leave out meanings the board has no option for.
@@ -51,16 +48,18 @@ Infer each line of the record from what the board and its issues show, not from 
 - **Closing**: the reasons closed items use, else `done = completed; dropped = not planned`.
 - **Notes**: rules from the README or description that change how items are created or updated. One line each.
 
-Show the record and the gaps in one message. Use AskUserQuestion only where the data is split, such as two possible priority fields. Gaps are where the board breaks its own conventions or lacks something common: items missing their marker or parent, dates in bodies while the date fields are empty, a view filtering on a field items don't fill, no priority or date field. Report them and don't fix them: `configure.md` can align any of them later, if the user wants. Then go to Record.
+Show the record and the gaps in one message. Use AskUserQuestion only where the data is split, such as two possible priority fields. Gaps are where the board breaks its own conventions or lacks something common: items missing their marker or parent, dates in bodies while the date fields are empty, a view filtering on a field items don't fill, no priority or date field. Report them and don't fix them: `configure.md` can align any of them later, if the user wants. Then go to Bring this repo in line.
 
 ## Join
 
-Read the other repo's record from its default branch, in `CLAUDE.md` or `AGENTS.md`: `gh api repos/<source>/contents/<file> -H 'Accept: application/vnd.github.raw'`.
+Read the other repo's record from its default branch, in `CLAUDE.md` or `AGENTS.md`: `gh api repos/<source>/contents/<file> -H 'Accept: application/vnd.github.raw'`. Rewrite `like #<n>` as `like <source>#<n>` and `form <file>` as `form <source>:<file>`. Then go to Bring this repo in line.
 
-- `form <file>` kinds: copy each form from `.github/ISSUE_TEMPLATE/<file>` the same way, skipping any this repo has, and create the labels they use that this repo lacks, with the same color and description (`gh label list -R <source> --json name,color,description`).
-- `like #<n>` kinds: rewrite as `like <source>#<n>`.
+## Bring this repo in line
 
-Then go to Record.
+Learn and Join only read. This step and Record are where the repo changes, so the first issue created here matches the board. Both items below are on by default in the Record summary, and the user can turn either off.
+
+- Forms: copy each `form <owner>/<repo>:<file>` to `.github/ISSUE_TEMPLATE/<file>` the same way Join reads the record, and change its line to `form <file>`. Skip a file this repo already has, and say so.
+- Labels: create each marker label, and each label a copied form uses, that this repo lacks, with the source's color and description (`gh label list -R <owner>/<repo> --json name,color,description`). Without them, `gh issue create --label` fails and forms silently drop the label.
 
 ## Set up
 
@@ -94,6 +93,6 @@ Planning uses the gh-projects skill. Board: "<title>" (<owner>/<n>, ID <project 
 - Notes: none
 ```
 
-Ask the open choices together with the write summary in one AskUserQuestion call, so the answers are the yes: the file, if it isn't settled; how to save (push to the default branch, open a pull request, or leave it uncommitted, which isn't offered with forms, since forms work only on the default branch); and, after Learn or Join, whether to link the board so it shows in the repo's Projects tab (`gh project link`), off by default. After Learn, also offer issue forms for the `like #<n>` kinds, built from their examples as in Align in `configure.md`, off by default. Say how forms differ from the examples. The kinds then use `form <file>` in the record.
+Ask the open choices together with the write summary in one AskUserQuestion call, so the answers are the yes: the file, if it isn't settled; how to save (push to the default branch, open a pull request, or leave it uncommitted, which isn't offered with forms, since forms work only on the default branch); after Learn or Join, the forms and labels from Bring this repo in line, on by default, and whether to link the board so it shows in the repo's Projects tab (`gh project link`), off by default. After Learn, also offer issue forms for the `like #<n>` kinds, built from their examples as in Align in `configure.md`, off by default. Say how forms differ from the examples. The kinds then use `form <file>` in the record.
 
 Use the message "Record the GitHub project in <file>". Finish by telling the user what was written, what wasn't and why (such as forms the user declined, which `configure.md` can add later), and which gaps are open. If a view doesn't use a new field, such as a roadmap on Start and Target, say which view to adjust in the web UI.
